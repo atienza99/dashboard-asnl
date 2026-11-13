@@ -386,6 +386,82 @@ h1{font-size:30px}
 <body class="locked">
 
 
+<style>
+/* ===== Ficha del médico ===== */
+[data-f]{cursor:pointer}
+@media (hover:hover) and (pointer:fine){.opp[data-f]:hover,.al[data-f]:hover{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}}
+.opp[data-f]:focus-visible,.al[data-f]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fbtn{font-size:13.5px;padding:7px 12px;display:inline-flex;align-items:center;gap:6px}
+.opp .fgo,.al .fgo{font-size:12px;color:var(--accent);font-weight:600}
+.ficha{border:0;padding:0;margin:0;inset:0 0 0 auto;width:min(800px,100vw);max-width:100vw;height:100%;max-height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);box-shadow:-18px 0 50px -20px rgba(10,20,35,.5);overflow:hidden}
+.ficha[open]{display:flex}
+.ficha::backdrop{background:rgba(10,20,35,.45)}
+.fwrap{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}
+.fhead{background:var(--navy);color:#fff;padding:14px 18px;padding-top:max(14px,env(safe-area-inset-top));display:flex;gap:12px;align-items:center;flex:none}
+.fhead .fx{flex:1;min-width:0}
+.fhead h2{margin:0;font-size:21px;line-height:1.2;font-weight:700;overflow-wrap:anywhere}
+.fhead p{margin:3px 0 0;font-size:13px;color:var(--side-ink-2)}
+.fclose{appearance:none;border:0;background:rgba(255,255,255,.12);color:#fff;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none}
+.fclose svg{width:20px;height:20px}
+@media (hover:hover) and (pointer:fine){.fclose:hover{background:rgba(255,255,255,.2)}}
+.fclose:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.fhead .minisw{border-color:rgba(255,255,255,.22);flex:none}
+.fhead .minisw button{color:var(--side-ink)}
+.fhead .minisw button[aria-pressed="true"]{background:var(--orange);color:#1b2a3b}
+.fbody{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px 18px 32px;padding-bottom:max(32px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.fk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.fk .kpi{padding:12px 14px}
+.fk .kpi .v{font-size:21px}
+.fk .kpi .v.sm{font-size:17px}
+.fk .kpi .k{padding-right:0;font-size:13px}
+.fk .kpi .d{font-size:12px}
+.fnotes{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.fnotes li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;padding:9px 11px;border-radius:8px;background:var(--surface-2)}
+.fnotes li i{flex:none;width:9px;height:9px;border-radius:50%;margin-top:6px;background:var(--ink-3)}
+.fnotes li.w i{background:var(--neg)}.fnotes li.g i{background:var(--up)}.fnotes li.o i{background:var(--orange)}
+#fchart svg{display:block;width:100%;height:auto}
+#fchart text{fill:var(--ink-3);font:11px var(--sans)}
+.fprods{display:flex;flex-direction:column;gap:10px}
+.fp{display:grid;grid-template-columns:minmax(140px,190px) minmax(0,1fr) 96px;gap:12px;align-items:center}
+.fp .pn{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;min-width:0}
+.fp .pn span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fp .pt{text-align:right;font-weight:700;font-size:13.5px;line-height:1.25;white-space:nowrap}
+.fp .pt small{display:block;font-weight:500;font-size:11.5px;color:var(--ink-3)}
+.fp .strip{grid-template-columns:repeat(12,minmax(0,1fr))}
+.fp .strip i{height:24px;line-height:24px;font-size:10px}
+.fp .strip i.z{background:var(--surface-2);color:var(--ink-3)}
+.fp.hd .strip i{background:none;height:auto;line-height:1.2;font-size:10.5px;color:var(--ink-3)}
+.fp.hd .pn,.fp.hd .pt{font-size:11.5px;color:var(--ink-3);font-weight:500}
+.fsec{display:flex;flex-direction:column;gap:10px}
+.fsec h3{margin:0;font-size:15px;font-weight:600}
+@media (max-width:860px){.fk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){
+  .ficha{width:100vw;inset:0;box-shadow:none}
+  .fhead{padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));flex-wrap:wrap;gap:8px 10px}
+  .fhead h2{font-size:18px}
+  .fhead .minisw{order:3;width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .fhead .minisw button{padding:8px}
+  .fbody{padding:12px 12px 28px;gap:12px}
+  .fk{gap:8px}
+  .fk .kpi{padding:10px 12px}
+  .fk .kpi .v{font-size:18px}
+  .fnotes li{font-size:13.5px}
+  .fp{grid-template-columns:minmax(0,1fr) auto;row-gap:5px}
+  .fp .strip{grid-column:1/-1;grid-row:2}
+  .fp.hd .pn,.fp.hd .pt{display:none}
+  .fp.hd .strip{grid-row:1}
+  .fp .strip i{font-size:9px;height:26px;line-height:26px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ficha[open]{animation:fIn .24s cubic-bezier(.2,.8,.2,1)}
+  .ficha[open]::backdrop{animation:fBk .24s ease}
+}
+@media (max-width:600px) and (prefers-reduced-motion:no-preference){.ficha[open]{animation-name:fUp}}
+@keyframes fIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fUp{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fBk{from{opacity:0}to{opacity:1}}
+</style>
+
 <div class="app">
 <aside class="side" id="side">
   <div class="brand"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23f5a524'/%3E%3Cpath d='M10 29V21M17 29V15M24 29V18M31 29V10' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" alt="" width="40" height="40"><div><b>Dashboard ASNL</b><span>Visita médica</span></div></div>
@@ -438,7 +514,7 @@ h1{font-size:30px}
       <div class="hbars" id="prodBars"></div>
     </section>
     <section class="panel">
-      <div class="ph"><h2 id="topTitle">Top 15 médicos</h2><span class="note">Pulsa un médico para ver su detalle</span></div>
+      <div class="ph"><h2 id="topTitle">Top 15 médicos</h2><span class="note">Pulsa un médico para ver su ficha</span></div>
       <div class="legend" id="legend"></div>
       <div class="hbars" id="docBars"></div>
       <button type="button" class="more" id="docMore" hidden></button>
@@ -482,6 +558,7 @@ h1{font-size:30px}
 </main>
 </div>
 <div class="tip" id="tip" hidden></div>
+<dialog class="ficha" id="ficha" aria-labelledby="fName"><div class="fwrap" id="fwrap"></div></dialog>
 
 
 <style>
@@ -861,7 +938,7 @@ function renderDocBars(){
       bindTip(s,()=>`<b>${who(d.doc)}</b><br>${nice(p)}: ${fmtV(d.prods[p])}${U()}`+sets().filter(x=>!x.none).map(x=>`<br>${x.long}: ${fmtV(x.b.dp[d.doc+'|'+p]||0)}${U()}`).join(''));
       tr.appendChild(s);
     });
-    row.onclick=()=>{state.open=d.doc; state.q=''; document.getElementById('q').value=''; renderTable(); var o=document.getElementById('tbl').querySelector('tr.open'); if(o) o.scrollIntoView({behavior:'smooth',block:'center'});};
+    row.onclick=()=>openFicha(d.doc);
     el.appendChild(row);
   });
 }
@@ -1018,9 +1095,9 @@ function renderOpps(){
   document.getElementById('opps').innerHTML = docs.map(d=>{
     const missing = CORE.filter(p=>!(d.prods[p]>0));
     const has = Object.keys(d.prods).length;
-    return `<div class="opp"><div class="top"><span>${who(d.doc)}</span><span class="num">${fmtV(d.tot)}</span></div>
+    return `<div class="opp" data-f="${fEsc(d.doc)}" role="button" tabindex="0" aria-label="Ver ficha de ${fEsc(who(d.doc))}"><div class="top"><span>${who(d.doc)}</span><span class="num">${fmtV(d.tot)}</span></div>
       <div class="tags">${missing.length? missing.map(p=>`<span class="tag"><span class="dot" style="background:${colorOf(p)}"></span>Sin ${nice(p)}</span>`).join('') : '<span class="note" style="font-size:12px;color:var(--ink-3)">Receta los 3 principales</span>'}</div>
-      <span class="note" style="font-size:12px;color:var(--ink-3)">${has} producto${has>1?'s':''} en cartera</span></div>`;
+      <span class="note" style="font-size:12px;color:var(--ink-3)">${has} producto${has>1?'s':''} en cartera</span><span class="fgo">Ver ficha ›</span></div>`;
   }).join('');
 }
 
@@ -1060,7 +1137,7 @@ function renderTable(){
       `<td class="c pc"><span>${otherOf(d)?fmt(otherOf(d)):'·'}</span></td></tr>`;
     if(open){
       const lmax = Math.max(1,...d.lines.flatMap(l=>l.cols));
-      html+=`<tr class="detail"><td colspan="${cols.length}" style="position:static"><div class="dl">`+
+      html+=`<tr class="detail"><td colspan="${cols.length}" style="position:static"><div class="dl"><button type="button" class="more fbtn" data-f="${fEsc(d.doc)}">Ver ficha completa de ${fEsc(who(d.doc))} ›</button>`+
         [...d.lines].sort((a,b)=>b.tot-a.tot).map(l=>{const key=d.doc+'|'+l.prod;
           const lds = ss.map(s=>`<span>${dlt(s.c.dp[key]||0,s.b.dp[key]||0,MO())} <span class="vs">${s.label}</span></span>`).join(' &nbsp;');
           return `<div class="dline"><span><span class="dot" style="display:inline-block;margin-right:6px;background:${colorOf(l.prod)}"></span>${nice(l.prod)}${lds?`<br><span style="font-size:11px">${lds}</span>`:''}</span><span class="num" style="text-align:right;font-weight:600">${EUR()?fmtK(l.tot)+' €':l.tot}</span><div class="strip" style="--n:${v.ncol};grid-template-columns:repeat(${v.ncol},minmax(${state.view==='year'?'28px':'9px'},1fr))">${l.cols.map((x,i)=>`<i title="${v.long(i)}: ${fmtV(x)}" class="${x<0?'n':''}" style="${x>0?heat(x,lmax):''}">${state.view==='year'?(x?(EUR()?fmtK(x):x):MSHORT[i]):(x&&!EUR()?x:'')}</i>`).join('')}</div></div>`;}).join('')+
@@ -1175,7 +1252,7 @@ function renderAlerts(){
   note.textContent = `${cap(MNAME[m])} ${y} frente a la media de ${names}`+(frac<1?` · ajustado a los días que llevas (${fmtN(frac*100,0)} % del mes)`:'');
   if(!out.length){ el.innerHTML='<p class="empty">Ningún médico habitual ha bajado más de un 50 % este mes.</p>'; return; }
   el.innerHTML = `<p class="note" style="margin:0 0 10px">${out.length} médicos que recetaron los 3 meses anteriores y este mes no han recetado o han bajado más de la mitad. Ordenados por lo que se ha dejado de facturar.</p><div class="alerts">`+
-    (MOB()&&!alAll ? out.slice(0,5) : out).map(a=>`<div class="al${a.zero?' zero':''}"><div class="top"><span class="nm">${who(a.doc)}</span><span class="badge">${a.c<0?'Solo devoluciones':a.zero?'Sin recetas':'−'+fmtN(Math.min(a.drop,100),0)+' %'}</span></div>
+    (MOB()&&!alAll ? out.slice(0,5) : out).map(a=>`<div class="al${a.zero?' zero':''}" data-f="${fEsc(a.doc)}" role="button" tabindex="0" aria-label="Ver ficha de ${fEsc(who(a.doc))}"><div class="top"><span class="nm">${who(a.doc)}</span><span class="badge">${a.c<0?'Solo devoluciones':a.zero?'Sin recetas':'−'+fmtN(Math.min(a.drop,100),0)+' %'}</span></div>
       <span class="ln">Media 3 meses: <b>${fmtE(a.avg)}/mes</b>${frac<1?` · esperado a hoy: ${fmtE(a.exp)}`:''}</span>
       <span class="ln">${cap(MNAME[m])}: <b>${fmtE(a.c)}</b> (${fmt(a.cu)} cajas)</span>
       <span class="ln">${a.worst?`Cae sobre todo: <b>${nice(a.worst)}</b>`:''}${a.last?` · Última receta: <b>${fmtD(a.last)}</b>`:''}</span></div>`).join('')+`</div>`
@@ -1214,7 +1291,7 @@ function renderEvo(){
   const el=document.getElementById('evo');
   el.innerHTML = `<div class="evhead"><span>Médico</span><span>Últimos 12 meses</span><span>Total 12 meses</span><span>Tendencia</span></div><div class="evo">`+
     shown.map(x=>`<div class="ev${evoOpen===x.doc?' open':''}" data-d="${x.doc.replace(/"/g,'&quot;')}" role="button" tabindex="0" aria-expanded="${evoOpen===x.doc}"><span class="nm">${who(x.doc)}</span>${spark(x.v)}<span class="tot">${fv(x.t)}</span><span class="tr">${trend(x)}</span>`+
-      (evoOpen===x.doc ? `<div class="evd">${x.v.map((val,i)=>`<span><em>${MSHORT[months[i][1]]}${months[i][0]!==y?" '"+String(months[i][0]).slice(2):''}</em>${have[i]?fv(val):'—'}</span>`).join('')}</div>` : '')+`</div>`).join('')+`</div>`+
+      (evoOpen===x.doc ? `<button type="button" class="more fbtn" style="grid-column:1/-1;justify-self:start" data-f="${fEsc(x.doc)}">Ver ficha completa ›</button><div class="evd">${x.v.map((val,i)=>`<span><em>${MSHORT[months[i][1]]}${months[i][0]!==y?" '"+String(months[i][0]).slice(2):''}</em>${have[i]?fv(val):'—'}</span>`).join('')}</div>` : '')+`</div>`).join('')+`</div>`+
     (list.length>shown.length ? `<button type="button" class="more" id="evoMore">Ver los ${list.length} médicos</button>` : '');
   el.querySelectorAll('.ev').forEach(r=>{ const go=()=>{evoOpen = evoOpen===r.dataset.d?null:r.dataset.d; renderEvo(); const o=document.querySelector('.evd'); if(o && o.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) o.animate([{opacity:0,transform:'translateY(-4px)'},{opacity:1,transform:'none'}],{duration:180,easing:'cubic-bezier(.23,1,.32,1)'}); const r2=document.querySelector('.ev.open'); if(r2) r2.focus({preventScroll:true});}; r.onclick=go; r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}; });
   const mb=document.getElementById('evoMore'); if(mb) mb.onclick=()=>{evoAll=true; renderEvo();};
@@ -1222,6 +1299,138 @@ function renderEvo(){
 document.getElementById('evoQ').addEventListener('input',()=>renderEvo());
 document.querySelectorAll('#evoSw button').forEach(b=>b.onclick=()=>{evoMode=b.dataset.m; renderEvo();});
 function renderInfo(){ renderForecast(); renderAlerts(); renderEvo(); }
+
+// ================= Ficha del médico (últimos 12 meses, por producto) =================
+const fdlg = document.getElementById('ficha'), fwrap = document.getElementById('fwrap');
+let fichaDoc = null, fichaMode = null, fPushed = false;
+const fEsc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fSum = a => a.reduce((s,x)=>s+x,0);
+function fichaMonths(){ const [y,m]=KEYS[KEYS.length-1].split('-').map(Number); const out=[]; let a=y,b=m-1; for(let i=0;i<12;i++){ out.unshift([a,b]); [a,b]=prevMonth(a,b); } return out; }
+function fichaData(doc, db){
+  const ms=fichaMonths(), have=ms.map(([y,m])=>!!rowsOf(db,y,m)), byProd={}, tot=Array(12).fill(0); let dev=0;
+  ms.forEach(([y,m],i)=>(rowsOf(db,y,m)||[]).forEach(r=>{ if(r.doc!==doc) return; (byProd[r.prod]=byProd[r.prod]||Array(12).fill(0))[i]+=r.tot; tot[i]+=r.tot; dev+=r.dev; }));
+  return {ms,have,byProd,tot,dev};
+}
+function openFicha(doc){
+  fichaDoc = doc; if(!fichaMode) fichaMode = state.mode==='u' ? 'u' : 'e';
+  hideTip(); renderFicha();
+  if(!fdlg.open){
+    try{ fdlg.showModal(); }catch(e){ fdlg.setAttribute('open',''); }
+    fdlg.appendChild(tip);
+    document.documentElement.style.overflow='hidden';
+    fPush();
+  }
+  const b=fdlg.querySelector('.fbody'); if(b) b.scrollTop=0;
+  const c=fdlg.querySelector('.fclose'); if(c) c.focus({preventScroll:true});
+}
+// El botón "atrás" del móvil cierra la ficha. Si se cierra con la X, se deshace esa entrada del
+// historial; mientras ese "atrás" está en camino (fBackPending) no se añade otra, para que no cierre
+// una ficha abierta justo después.
+let fBackPending = false;
+function fPush(){ if(fBackPending) return; try{ history.pushState({ficha:1}, ''); fPushed=true; }catch(e){ fPushed=false; } }
+function closeFicha(){ if(fdlg.open) fdlg.close(); }
+fdlg.addEventListener('close',()=>{ document.documentElement.style.overflow=''; fichaDoc=null; hideTip(); document.body.appendChild(tip); if(fPushed){ fPushed=false; fBackPending=true; try{ history.back(); }catch(e){ fBackPending=false; } } });
+fdlg.addEventListener('click',e=>{ if(e.target===fdlg) closeFicha(); });
+window.addEventListener('popstate',()=>{
+  if(fBackPending){ fBackPending=false; if(fdlg.open && !fPushed) fPush(); return; }
+  if(fdlg.open){ fPushed=false; fdlg.close(); }
+});
+// Cualquier elemento con data-f="MÉDICO" abre su ficha
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('[data-f]'); if(!b || fdlg.contains(b)) return; e.preventDefault(); e.stopPropagation(); openFicha(b.dataset.f); }, true);
+document.addEventListener('keydown',e=>{ if(e.key!=='Enter' && e.key!==' ') return; const b=e.target.closest && e.target.closest('[data-f]'); if(!b || b.tagName==='BUTTON') return; e.preventDefault(); openFicha(b.dataset.f); });
+
+function renderFicha(){
+  const doc=fichaDoc; if(!doc) return;
+  const money = fichaMode==='e', db = money ? DBE : DBU, mob = MOB();
+  const fv = x => money ? fmtE(x) : fmt(Math.round(x))+' cajas';
+  const cell = x => money ? fmtK(x) : fmt(x);
+  const D = fichaData(doc, db), Uc = fichaData(doc, DBU), Ec = fichaData(doc, DBE);
+  const [y,m] = D.ms[11], frac = monthFrac(y,m), partial = frac<1;
+  const lbl = i => { const [yy,mm]=D.ms[i]; return MSHORT[mm]+(yy!==y?" '"+String(yy).slice(2):''); };
+  const lblLong = i => { const [yy,mm]=D.ms[i]; return cap(MNAME[mm])+' '+yy; };
+  const t12 = fSum(D.tot);
+  // Mismos 12 meses del año anterior (el mes en curso, recortado a los mismos días)
+  const cut = withMode(DBU, ()=>cutOf(y,m));
+  let p12=0, pHave=0;
+  D.ms.forEach(([yy,mm],i)=>{ const r = (i===11 && cut) ? withMode(db, ()=>trimmed(yy-1,mm,cut)) : rowsOf(db,yy-1,mm); if(r){ pHave++; r.forEach(x=>{ if(x.doc===doc) p12+=x.tot; }); } });
+  const cmp12 = pHave===12 ? `<div class="kd"><span class="vs">vs 12 meses antes</span> ${dlt(t12,p12, money?{money:true}:{unit:'cajas'})}</div>` : '';
+  // Mes en curso frente a su media de los 3 meses anteriores
+  const cur = D.tot[11], h3 = D.have[8]&&D.have[9]&&D.have[10], avg3 = h3 ? (D.tot[8]+D.tot[9]+D.tot[10])/3 : 0, exp = avg3*frac;
+  // Tendencia: últimos 3 meses frente a los 3 anteriores
+  const okT = D.have.slice(6).every(Boolean);
+  const l3 = (D.tot[9]+D.tot[10]+D.tot[11])/(partial ? 2+frac : 3), p3 = (D.tot[6]+D.tot[7]+D.tot[8])/3;
+  const tr = !okT ? null : p3>0 ? (l3-p3)/p3*100 : (l3>0 ? Infinity : 0);
+  const trTxt = tr===null ? '<span class="vs">sin datos</span>' : tr===Infinity ? '<span class="dd up">nuevo</span>' : Math.abs(tr)<5 ? '<span class="dd eq">= estable</span>' : `<span class="dd ${tr>0?'up':'down'}">${tr>0?'▲':'▼'} ${fmtN(Math.abs(tr),0)} %</span>`;
+  const ls = lastSale(doc), days = ls ? Math.max(0, Math.floor((Date.now()-ls.getTime())/864e5)) : null;
+  const prodsAll = Object.keys(D.byProd).sort((a,b)=>fSum(D.byProd[b])-fSum(D.byProd[a]));
+  const active = prodsAll.filter(p=>fSum(D.byProd[p])>0);
+
+  // ---- Para la visita: avisos en lenguaje llano
+  const notes = [];
+  if(days!==null && days>=21) notes.push(['w', `Lleva <b>${days} días</b> sin recetar (última receta: ${fmtD(ls)}).`]);
+  if(h3 && exp>0){
+    const r = cur/exp;
+    if(r<0.5) notes.push(['w', `${cap(MNAME[m])} va <b>un ${fmtN((1-Math.max(0,r))*100,0)} % por debajo</b> de lo normal para él: ${fv(cur)} frente a ${fv(exp)} esperados${partial?' a estas alturas del mes':''}.`]);
+    else if(r>1.25) notes.push(['g', `${cap(MNAME[m])} va <b>un ${fmtN((r-1)*100,0)} % por encima</b> de su media: ${fv(cur)} frente a ${fv(exp)} esperados.`]);
+  }
+  prodsAll.forEach(p=>{ const a=D.byProd[p], before=fSum(a.slice(0,9)), last3=fSum(a.slice(9));
+    if(before>0 && last3<=0){ let li=8; while(li>0 && !(a[li]>0)) li--; notes.push(['w', `Ha dejado de recetar <b>${fEsc(nice(p))}</b>: lo último fue en ${MNAME[D.ms[li][1]]}.`]); }
+    else if(before<=0 && last3>0){ const fi=a.findIndex((v,i)=>i>=9 && v>0); notes.push(['g', `Empezó a recetar <b>${fEsc(nice(p))}</b> en ${MNAME[D.ms[fi][1]]}.`]); }
+  });
+  const missing = CORE.filter(p=>!(fSum(D.byProd[p]||[])>0));
+  if(missing.length) notes.push(['o', `Oportunidad: en 12 meses no ha recetado <b>${missing.map(p=>fEsc(nice(p))).join('</b>, <b>')}</b>.`]);
+  if(Uc.dev>0) notes.push(['', `${fmt(Uc.dev)} cajas devueltas en los últimos 12 meses (${fmtE(Ec.dev)}).`]);
+  if(!notes.length) notes.push(['g', 'Nada que destacar: receta con normalidad.']);
+
+  // ---- KPIs
+  const kp = [
+    ['Últimos 12 meses', fv(t12), cmp12 + `<span class="d">${money ? fmt(fSum(Uc.tot))+' cajas' : fmtE(fSum(Ec.tot))}</span>`],
+    [cap(MNAME[m])+(partial?' (en curso)':''), fv(cur), h3 ? `<div class="kd"><span class="vs">esperado ${partial?'a hoy':''}</span> ${dlt(cur,exp, money?{money:true}:{unit:'cajas'})}</div>` : ''],
+    ['Última receta', ls ? fmtD(ls) : '—', days!==null ? `<span class="d">hace ${days} día${days===1?'':'s'}</span>` : '', true],
+    ['Tendencia', trTxt, `<span class="d">últimos 3 meses frente a los 3 anteriores</span>`, true]
+  ];
+
+  // ---- Gráfico: cada mes apilado por producto
+  const W = mob ? 360 : 720, H = mob ? 200 : 230, L = mob ? 34 : 44, R = 6, T = 12, B = 24, iw=W-L-R, ih=H-T-B;
+  const fc = partial && frac>0 ? cur/frac : null;
+  const mx = Math.max(1, ...D.tot, fc||0), step = niceStep(mx, 4), top = Math.ceil(mx/step)*step, yv = v => T+ih-Math.max(0,v)/top*ih, bw = iw/12, w = Math.max(6, bw*.62);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${money?'Facturación':'Cajas'} por mes de los últimos 12 meses">`;
+  for(let t=0;t<=top;t+=step) svg += `<line x1="${L}" x2="${W-R}" y1="${yv(t)}" y2="${yv(t)}" stroke="var(--grid)"/><text x="${L-6}" y="${yv(t)+3.5}" text-anchor="end">${money?fmtK(t):fmt(t)}</text>`;
+  for(let i=0;i<12;i++){
+    const x = L+i*bw+(bw-w)/2; let acc = 0;
+    svg += `<g class="fcb" data-i="${i}"><rect x="${L+i*bw}" y="${T}" width="${bw}" height="${ih}" fill="transparent"/>`;
+    if(i===11 && fc && fc>cur) svg += `<rect x="${x}" y="${yv(fc)}" width="${w}" height="${Math.max(0,yv(Math.max(cur,0))-yv(fc))}" fill="none" stroke="var(--ink-3)" stroke-dasharray="3 3" rx="2"/>`;
+    prodsAll.forEach(p=>{ const v = D.byProd[p][i]; if(v>0){ svg += `<rect x="${x}" y="${yv(acc+v)}" width="${w}" height="${Math.max(0,yv(acc)-yv(acc+v))}" fill="${colorOf(p)}"/>`; acc += v; } });
+    svg += `</g>` + ((mob && i%2) ? '' : `<text x="${L+i*bw+bw/2}" y="${H-7}" text-anchor="middle">${lbl(i)}</text>`);
+  }
+  svg += `<line x1="${L}" x2="${W-R}" y1="${yv(0)}" y2="${yv(0)}" stroke="var(--ink-3)"/></svg>`;
+  const legend = active.slice(0,8).map(p=>`<span><span class="dot" style="background:${colorOf(p)}"></span>${fEsc(nice(p))}</span>`).join('');
+
+  // ---- Productos: una fila por producto con sus 12 meses
+  const pmax = Math.max(1, ...prodsAll.flatMap(p=>D.byProd[p]));
+  const head = `<div class="fp hd"><span class="pn">Producto</span><div class="strip">${D.ms.map(([,mm],i)=>`<i>${mob?MSHORT[mm]:lbl(i)}</i>`).join('')}</div><span class="pt">Total 12 m</span></div>`;
+  const rows = prodsAll.map(p=>{ const a=D.byProd[p], t=fSum(a);
+    return `<div class="fp"><span class="pn" title="${fEsc(p)}"><span class="dot" style="background:${colorOf(p)}"></span><span>${fEsc(nice(p))}</span></span>`+
+      `<div class="strip">${a.map((v,i)=>`<i class="${v<0?'n':v===0?'z':''}" style="${v>0?heat(v,pmax):''}" title="${lblLong(i)}: ${fv(v)}">${v?cell(v):'·'}</i>`).join('')}</div>`+
+      `<span class="pt">${fv(t)}<small>${money ? fmt(fSum(Uc.byProd[p]||[]))+' cajas' : fmtE(fSum(Ec.byProd[p]||[]))}</small></span></div>`; }).join('');
+
+  const sub = `${active.length} producto${active.length===1?'':'s'} en 12 meses · de ${MNAME[D.ms[0][1]]} ${D.ms[0][0]} a ${MNAME[m]} ${y}`;
+  fwrap.innerHTML = `<div class="fhead"><button type="button" class="fclose" aria-label="Cerrar ficha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${mob?'M15 5l-7 7 7 7':'M6 6l12 12M18 6L6 18'}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`+
+      `<div class="fx"><h2 id="fName">${fEsc(who(doc))}</h2><p>${sub}</p></div>`+
+      `<div class="minisw" role="group" aria-label="Ver la ficha en"><button type="button" data-fm="e" aria-pressed="${money}">€</button><button type="button" data-fm="u" aria-pressed="${!money}">Cajas</button></div></div>`+
+    `<div class="fbody">`+
+      `<section class="fk">${kp.map(([k,v,d,sm])=>`<div class="kpi"><span class="k">${k}</span><span class="v${sm?' sm':''}">${v}</span>${d}</div>`).join('')}</section>`+
+      `<section class="panel fsec"><h3>Para la visita</h3><ul class="fnotes">${notes.map(([c,t])=>`<li class="${c}"><i></i><span>${t}</span></li>`).join('')}</ul></section>`+
+      `<section class="panel fsec"><div class="ph"><h3>${money?'Facturación':'Cajas'} por mes</h3>${partial?`<span class="note">${MNAME[m]} va a medias: el contorno punteado es su previsión</span>`:''}</div><div id="fchart">${svg}</div><div class="legend">${legend}</div></section>`+
+      `<section class="panel fsec"><h3>Por producto</h3>${prodsAll.length ? `<div class="fprods">${head}${rows}</div>` : '<p class="empty">Sin recetas en los últimos 12 meses.</p>'}</section>`+
+    `</div>`;
+  fwrap.querySelector('.fclose').onclick = closeFicha;
+  fwrap.querySelectorAll('[data-fm]').forEach(b=>b.onclick=()=>{ fichaMode=b.dataset.fm; const st=fwrap.querySelector('.fbody').scrollTop; renderFicha(); fwrap.querySelector('.fbody').scrollTop=st; });
+  fwrap.querySelectorAll('#fchart .fcb').forEach(g=>{ const i=+g.dataset.i; bindTip(g, ()=>{
+    const det = prodsAll.filter(p=>D.byProd[p][i]).map(p=>`<span class="dot" style="display:inline-block;margin-right:5px;background:${colorOf(p)}"></span>${fEsc(nice(p))}: ${fv(D.byProd[p][i])}`).join('<br>');
+    return `<b>${lblLong(i)}</b>${D.have[i]?'':'<br>Sin datos'}<br>Total: ${fv(D.tot[i])}${i===11&&fc?`<br>Previsión del mes: ${fv(fc)}`:''}${det?'<br><br>'+det:''}`; }, true); });
+}
+let fRt; window.addEventListener('resize',()=>{ clearTimeout(fRt); fRt=setTimeout(()=>{ if(fdlg.open) renderFicha(); },180); });
 
 function renderAll(){
   const isInfo = state.page==='info'; document.getElementById('dash').hidden=isInfo; document.getElementById('info').hidden=!isInfo;
